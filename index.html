@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ALTIVA</title>
+  <meta name="description" content="Mediterranean quiet luxury. Padel belongs here." />
+
+  <style>
+    :root {
+      --black:  #1A1A1A;
+      --navy:   #001F3F;
+      --bronze: #D4A574;
+      --taupe:  #F5F3F0;
+      --cream:  #F9F6F1;
+      --white:  #FFFFFF;
+      --border: rgba(26,26,26,.09);
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--cream);
+      color: var(--black);
+      -webkit-font-smoothing: antialiased;
+    }
+    img, svg { display: block; }
+    input, button { font-family: inherit; }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin-inline: auto;
+      padding-inline: 40px;
+    }
+    @media (max-width: 768px) { .container { padding-inline: 20px; } }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: 0.08s; }
+    .d2 { transition-delay: 0.18s; }
+    .d3 { transition-delay: 0.28s; }
+    .d4 { transition-delay: 0.38s; }
+
+    /* ══════════════════════════════
+       NAV
+    ══════════════════════════════ */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 22px 40px;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.4s ease, border-color 0.4s ease;
+    }
+    #nav.scrolled {
+      background: rgba(249,246,241,0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(26,26,26,.07);
+    }
+    .nav-brand {
+      font-size: 12px; font-weight: 300;
+      letter-spacing: .3em; text-transform: uppercase;
+      color: var(--black); opacity: .65;
+      text-decoration: none;
+    }
+    .nav-link {
+      font-size: 10px; font-weight: 400;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--black); opacity: .5;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .nav-link:hover { opacity: 1; }
+
+    /* When nav is over dark sections */
+    #nav.dark .nav-brand,
+    #nav.dark .nav-link {
+      color: var(--cream);
+    }
+
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      background: linear-gradient(168deg, var(--cream) 0%, #f0ebe3 55%, #e8e2d8 100%);
+      position: relative;
+      padding: 120px 40px 80px;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 55% 38% at 28% 18%, rgba(212,165,116,.11) 0%, transparent 65%),
+        radial-gradient(ellipse 45% 50% at 78% 82%, rgba(0,31,63,.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 20px;
+    }
+
+    .hero-logo {
+      width: 100px; height: 100px;
+      margin-bottom: 6px;
+      animation: fadeUp 1s ease-out 0.2s both;
+    }
+    .hero-brand {
+      font-size: clamp(54px, 9vw, 88px);
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      color: var(--black);
+      line-height: 1;
+      animation: fadeUp 1s ease-out 0.4s both;
+    }
+    .hero-rule {
+      width: 1px; height: 44px;
+      background: linear-gradient(to bottom, var(--bronze), transparent);
+      animation: fadeIn 1s ease-out 0.6s both;
+    }
+    .hero-tagline {
+      font-size: clamp(13px, 1.6vw, 16px);
+      font-weight: 300;
+      color: var(--black);
+      letter-spacing: 0.04em;
+      max-width: 460px;
+      line-height: 1.75;
+      animation: fadeUp 1s ease-out 0.65s both;
+    }
+    .hero-sub {
+      font-size: 10px; font-weight: 400;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--bronze);
+      animation: fadeUp 1s ease-out 0.8s both;
+    }
+    .hero-cta {
+      margin-top: 10px;
+      animation: fadeUp 1s ease-out 0.95s both;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 48px;
+      border: 1px solid var(--black);
+      color: var(--black);
+      text-decoration: none;
+      font-size: 10px; font-weight: 400;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    .btn:hover { background: var(--black); color: var(--cream); }
+    .btn-light {
+      border-color: rgba(249,246,241,.4);
+      color: var(--cream);
+    }
+    .btn-light:hover { background: var(--cream); color: var(--black); }
+
+    .scroll-hint {
+      position: absolute; bottom: 32px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      animation: fadeIn 1s ease-out 1.4s both;
+    }
+    .scroll-hint-line {
+      width: 1px; height: 36px;
+      background: linear-gradient(to bottom, rgba(26,26,26,.4), transparent);
+    }
+    .scroll-hint-label {
+      font-size: 8px; letter-spacing: .24em; text-transform: uppercase;
+      color: rgba(26,26,26,.35);
+    }
+
+    /* ══════════════════════════════
+       MANIFESTO  (dark)
+    ══════════════════════════════ */
+    #manifesto {
+      background: var(--black);
+      padding: 120px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .manifesto-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 60px;
+    }
+    @media (max-width: 768px) {
+      .manifesto-inner { grid-template-columns: 1fr; }
+    }
+
+    .manifesto-text { position: relative; z-index: 1; }
+
+    .manifesto-eyebrow {
+      font-size: 9px; font-weight: 400;
+      letter-spacing: .24em; text-transform: uppercase;
+      color: var(--bronze);
+      margin-bottom: 32px;
+    }
+
+    .manifesto-quote {
+      font-size: clamp(36px, 5.5vw, 64px);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: var(--cream);
+      line-height: 1.15;
+      margin-bottom: 32px;
+    }
+
+    .manifesto-body {
+      font-size: 13px; font-weight: 300;
+      color: rgba(249,246,241,.45);
+      line-height: 1.9;
+      max-width: 440px;
+      letter-spacing: .02em;
+    }
+
+    /* Padel racket — ghost watermark */
+    .racket-wrap {
+      opacity: 0.07;
+      flex-shrink: 0;
+    }
+    @media (max-width: 768px) {
+      .racket-wrap {
+        position: absolute; right: -60px; bottom: 40px;
+        opacity: 0.04;
+      }
+    }
+
+    /* ══════════════════════════════
+       PHILOSOPHY  (taupe)
+    ══════════════════════════════ */
+    #philosophy {
+      background: var(--taupe);
+      padding: 110px 0;
+    }
+
+    .section-kicker {
+      font-size: 9px; font-weight: 400;
+      letter-spacing: .26em; text-transform: uppercase;
+      color: var(--bronze);
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: clamp(26px, 4vw, 42px);
+      font-weight: 300; letter-spacing: .06em;
+      color: var(--black); line-height: 1.18;
+      margin-bottom: 56px;
+    }
+    .section-title em {
+      font-style: normal;
+      display: block;
+      color: rgba(26,26,26,.3);
+    }
+
+    .phil-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    @media (max-width: 768px) {
+      .phil-grid { grid-template-columns: 1fr; }
+    }
+
+    .phil-card {
+      background: var(--white);
+      padding: 44px 40px;
+      transition: background 0.25s ease;
+    }
+    .phil-card:hover { background: #fdfbf8; }
+
+    .phil-n {
+      font-size: 9px; letter-spacing: .24em; text-transform: uppercase;
+      color: var(--bronze); margin-bottom: 20px;
+    }
+    .phil-title {
+      font-size: 17px; font-weight: 300; letter-spacing: .05em;
+      color: var(--black); margin-bottom: 14px;
+    }
+    .phil-text {
+      font-size: 12px; color: rgba(26,26,26,.55);
+      line-height: 1.95;
+    }
+
+    /* ══════════════════════════════
+       COLLECTION  (cream)
+    ══════════════════════════════ */
+    #collection {
+      background: var(--cream);
+      padding: 110px 0;
+    }
+
+    .col-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 56px;
+      gap: 24px;
+    }
+    @media (max-width: 768px) {
+      .col-header { flex-direction: column; align-items: flex-start; }
+    }
+
+    .col-note {
+      font-size: 11px; color: rgba(26,26,26,.4);
+      line-height: 1.8; max-width: 260px; text-align: right;
+      letter-spacing: .01em;
+    }
+    @media (max-width: 768px) {
+      .col-note { text-align: left; }
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 1024px) {
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .product-grid { grid-template-columns: 1fr; gap: 28px; }
+    }
+
+    .product-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .product-card:hover {
+      box-shadow: 0 14px 48px rgba(26,26,26,.08);
+      transform: translateY(-3px);
+    }
+
+    .product-img {
+      aspect-ratio: 3 / 4;
+      width: 100%;
+      overflow: hidden;
+    }
+    .product-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .product-card:hover .product-img img { transform: scale(1.03); }
+
+    .product-body {
+      padding: 22px 20px;
+      border-top: 1px solid rgba(26,26,26,.05);
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    .product-cat {
+      font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--bronze);
+    }
+    .product-name {
+      font-size: 15px; font-weight: 300; letter-spacing: .04em;
+      color: var(--black);
+    }
+    .product-mat {
+      font-size: 11px; color: rgba(26,26,26,.45); line-height: 1.6;
+    }
+    .cdots {
+      display: flex; gap: 5px; margin-top: 3px;
+    }
+    .cdot {
+      width: 10px; height: 10px; border-radius: 50%;
+      border: 1px solid rgba(26,26,26,.12);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .cdot:hover { transform: scale(1.25); }
+    .cdot.active { box-shadow: 0 0 0 2px var(--black); }
+    .product-price {
+      font-size: 13px; font-weight: 400; letter-spacing: .03em;
+      color: var(--black);
+      margin-top: 8px; padding-top: 10px;
+      border-top: 1px solid rgba(26,26,26,.05);
+    }
+
+    /* ══════════════════════════════
+       MEMBERS STRIP  (navy)
+    ══════════════════════════════ */
+    #members {
+      background: var(--navy);
+      padding: 80px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #members::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 100% at 50% 50%, rgba(212,165,116,.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .members-inner { position: relative; z-index: 1; }
+
+    .members-rule {
+      width: 32px; height: 1px;
+      background: var(--bronze);
+      margin: 0 auto 28px;
+    }
+
+    .members-line {
+      font-size: clamp(14px, 2.4vw, 22px);
+      font-weight: 300; letter-spacing: 0.12em;
+      color: rgba(249,246,241,.75);
+      line-height: 1.6;
+    }
+
+    .members-sub {
+      margin-top: 20px;
+      font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+      color: rgba(212,165,116,.6);
+    }
+
+    /* ══════════════════════════════
+       WAITLIST  (taupe)
+    ══════════════════════════════ */
+    #waitlist {
+      background: var(--taupe);
+      padding: 110px 0;
+    }
+
+    .wl-wrap {
+      display: flex; justify-content: center;
+    }
+
+    .wl-card {
+      width: 100%; max-width: 580px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: clamp(40px, 6vw, 70px);
+      text-align: center;
+    }
+
+    .wl-logo {
+      width: 58px; height: 58px;
+      margin: 0 auto 28px;
+    }
+
+    .wl-title {
+      font-size: clamp(22px, 3.5vw, 34px);
+      font-weight: 300; letter-spacing: .1em;
+      color: var(--black); margin-bottom: 14px;
+    }
+
+    .wl-sub {
+      font-size: 12px; color: rgba(26,26,26,.5);
+      line-height: 1.9; max-width: 380px;
+      margin: 0 auto 36px;
+      letter-spacing: .01em;
+    }
+
+    .wl-form { display: flex; flex-direction: column; gap: 10px; }
+
+    .form-row { display: flex; gap: 10px; }
+    @media (max-width: 500px) { .form-row { flex-direction: column; } }
+
+    .form-input {
+      flex: 1; height: 50px; padding: 0 18px;
+      border: 1px solid rgba(26,26,26,.1);
+      background: var(--taupe);
+      color: var(--black);
+      font-size: 12px; letter-spacing: .02em;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      -webkit-appearance: none;
+    }
+    .form-input::placeholder { color: rgba(26,26,26,.3); }
+    .form-input:focus { border-color: rgba(26,26,26,.35); background: var(--white); }
+    .form-input.err { border-color: #a03030; }
+
+    .form-btn {
+      height: 50px; padding: 0 28px;
+      background: var(--black); color: var(--cream);
+      border: none; font-size: 10px; font-weight: 400;
+      letter-spacing: .22em; text-transform: uppercase;
+      cursor: pointer; white-space: nowrap; flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .form-btn:hover { background: #2a2a2a; }
+    .form-btn:disabled { opacity: .45; cursor: not-allowed; }
+
+    .form-msg {
+      font-size: 11px; min-height: 16px; letter-spacing: .01em;
+    }
+    .form-msg.ok  { color: #2d6a4f; }
+    .form-msg.err { color: #a03030; }
+
+    .wl-launch {
+      margin-top: 36px; padding-top: 28px;
+      border-top: 1px solid rgba(26,26,26,.06);
+      font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(26,26,26,.28);
+    }
+
+    /* ══════════════════════════════
+       FOOTER  (black)
+    ══════════════════════════════ */
+    #footer {
+      background: var(--black);
+      padding: 60px 0;
+    }
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 40px;
+    }
+    @media (max-width: 768px) {
+      .footer-inner { grid-template-columns: 1fr; text-align: center; gap: 22px; }
+    }
+
+    .footer-logo-block {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .footer-logo path,
+    .footer-logo circle,
+    .footer-logo line { stroke: rgba(249,246,241,.38); }
+
+    .footer-wordmark {
+      font-size: 11px; font-weight: 300;
+      letter-spacing: .32em; text-transform: uppercase;
+      color: rgba(249,246,241,.5);
+    }
+    .footer-copy {
+      font-size: 10px; letter-spacing: .08em;
+      color: rgba(249,246,241,.18);
+    }
+    .footer-tag {
+      font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+      color: rgba(249,246,241,.2); text-align: right; line-height: 2;
+    }
+    @media (max-width: 768px) { .footer-tag { text-align: center; } }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── NAV ── -->
+  <header id="nav" role="banner">
+    <a class="nav-brand" href="#" style="display:flex;align-items:center;gap:10px;">
+      <svg width="26" height="26" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M 25 70 Q 40 45 60 50 T 95 70" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M 25 80 Q 40 62 60 65 T 95 80" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="60" cy="48" r="1.2" fill="currentColor"/>
+        <line x1="20" y1="92" x2="100" y2="92" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/>
+      </svg>
+      ALTIVA
+    </a>
+    <a class="nav-link" href="#waitlist">Founding Membership</a>
+  </header>
+
+
+  <!-- ══ HERO ══ -->
+  <section id="hero" aria-labelledby="hero-brand">
+    <div class="hero-inner">
+
+      <svg class="hero-logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M 25 70 Q 40 45 60 50 T 95 70" stroke="#1A1A1A" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M 25 80 Q 40 62 60 65 T 95 80" stroke="#1A1A1A" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="60" cy="48" r="1.2" fill="#1A1A1A"/>
+        <line x1="20" y1="92" x2="100" y2="92" stroke="#1A1A1A" stroke-width="0.8" stroke-linecap="round"/>
+      </svg>
+
+      <h1 class="hero-brand" id="hero-brand">ALTIVA</h1>
+
+      <div class="hero-rule" aria-hidden="true"></div>
+
+      <p class="hero-tagline">Mediterranean quiet luxury.<br>Padel belongs here.</p>
+
+      <p class="hero-sub">A private lifestyle — not a sports brand</p>
+
+      <div class="hero-cta">
+        <a href="#waitlist" class="btn">Request Membership</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <div class="scroll-hint-line"></div>
+      <span class="scroll-hint-label">Discover</span>
+    </div>
+  </section>
+
+
+  <!-- ══ MANIFESTO — dark ══ -->
+  <section id="manifesto" aria-label="Brand manifesto">
+    <div class="container">
+      <div class="manifesto-inner">
+
+        <div class="manifesto-text reveal">
+          <p class="manifesto-eyebrow">The Philosophy</p>
+
+          <h2 class="manifesto-quote">
+            The match ends.<br>
+            The day continues.
+          </h2>
+
+          <p class="manifesto-body">
+            ALTIVA is what you reach for when padel is the starting point,
+            not the destination. Worn on court. Worn everywhere after.
+            The emblem of those who've already arrived.
+          </p>
+        </div>
+
+        <!-- Padel racket — ghost element, decorative only -->
+        <div class="racket-wrap" aria-hidden="true">
+          <svg width="180" height="360" viewBox="0 0 100 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="color:var(--cream);">
+            <!-- Head frame -->
+            <ellipse cx="50" cy="55" rx="43" ry="48" stroke="currentColor" stroke-width="1.2"/>
+            <!-- Perforations -->
+            <circle cx="50" cy="18" r="2.5" fill="currentColor"/>
+            <circle cx="37" cy="29" r="2.5" fill="currentColor"/>
+            <circle cx="50" cy="29" r="2.5" fill="currentColor"/>
+            <circle cx="63" cy="29" r="2.5" fill="currentColor"/>
+            <circle cx="24" cy="40" r="2.5" fill="currentColor"/>
+            <circle cx="37" cy="40" r="2.5" fill="currentColor"/>
+            <circle cx="50" cy="40" r="2.5" fill="currentColor"/>
+            <circle cx="63" cy="40" r="2.5" fill="currentColor"/>
+            <circle cx="76" cy="40" r="2.5" fill="currentColor"/>
+            <circle cx="17" cy="51" r="2.5" fill="currentColor"/>
+            <circle cx="30" cy="51" r="2.5" fill="currentColor"/>
+            <circle cx="43" cy="51" r="2.5" fill="currentColor"/>
+            <circle cx="56" cy="51" r="2.5" fill="currentColor"/>
+            <circle cx="69" cy="51" r="2.5" fill="currentColor"/>
+            <circle cx="82" cy="51" r="2.5" fill="currentColor"/>
+            <circle cx="17" cy="62" r="2.5" fill="currentColor"/>
+            <circle cx="30" cy="62" r="2.5" fill="currentColor"/>
+            <circle cx="43" cy="62" r="2.5" fill="currentColor"/>
+            <circle cx="56" cy="62" r="2.5" fill="currentColor"/>
+            <circle cx="69" cy="62" r="2.5" fill="currentColor"/>
+            <circle cx="82" cy="62" r="2.5" fill="currentColor"/>
+            <circle cx="24" cy="73" r="2.5" fill="currentColor"/>
+            <circle cx="37" cy="73" r="2.5" fill="currentColor"/>
+            <circle cx="50" cy="73" r="2.5" fill="currentColor"/>
+            <circle cx="63" cy="73" r="2.5" fill="currentColor"/>
+            <circle cx="76" cy="73" r="2.5" fill="currentColor"/>
+            <circle cx="37" cy="84" r="2.5" fill="currentColor"/>
+            <circle cx="50" cy="84" r="2.5" fill="currentColor"/>
+            <circle cx="63" cy="84" r="2.5" fill="currentColor"/>
+            <circle cx="50" cy="95" r="2.5" fill="currentColor"/>
+            <!-- Throat -->
+            <path d="M 26 101 L 41 118 L 59 118 L 74 101" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            <!-- Grip -->
+            <rect x="41" y="118" width="18" height="72" rx="4" stroke="currentColor" stroke-width="1.2"/>
+            <!-- Grip wrap -->
+            <line x1="41" y1="130" x2="59" y2="130" stroke="currentColor" stroke-width="0.45" opacity=".5"/>
+            <line x1="41" y1="140" x2="59" y2="140" stroke="currentColor" stroke-width="0.45" opacity=".5"/>
+            <line x1="41" y1="150" x2="59" y2="150" stroke="currentColor" stroke-width="0.45" opacity=".5"/>
+            <line x1="41" y1="160" x2="59" y2="160" stroke="currentColor" stroke-width="0.45" opacity=".5"/>
+            <line x1="41" y1="170" x2="59" y2="170" stroke="currentColor" stroke-width="0.45" opacity=".5"/>
+            <line x1="41" y1="180" x2="59" y2="180" stroke="currentColor" stroke-width="0.45" opacity=".5"/>
+          </svg>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ PHILOSOPHY — taupe ══ -->
+  <section id="philosophy" aria-labelledby="philosophy-title">
+    <div class="container">
+
+      <header class="reveal">
+        <p class="section-kicker">What we are</p>
+        <h2 class="section-title" id="philosophy-title">
+          Not a sports brand.
+          <em>A symbol of belonging.</em>
+        </h2>
+      </header>
+
+      <div class="phil-grid">
+
+        <article class="phil-card reveal d1">
+          <p class="phil-n">01 — The Idea</p>
+          <h3 class="phil-title">What ALTIVA Is</h3>
+          <p class="phil-text">
+            A symbol of belonging to an elite lifestyle built on taste, travel, wellness, and understated success. The emblem you wear when you've transcended needing to prove anything.
+          </p>
+        </article>
+
+        <article class="phil-card reveal d2">
+          <p class="phil-n">02 — The Customer</p>
+          <h3 class="phil-title">Who We Serve</h3>
+          <p class="phil-text">
+            The creative entrepreneur, founder, modern professional. Marbella, Madrid, Miami, Dubai, CDMX, Milan. They know the difference between luxury and performance wear — and they demand both.
+          </p>
+        </article>
+
+        <article class="phil-card reveal d3">
+          <p class="phil-n">03 — The Feeling</p>
+          <h3 class="phil-title">Emotional Context</h3>
+          <p class="phil-text">
+            Espresso after a match. Sun-faded linen. The private club where membership is inherited, not advertised. Effortlessness that took years to cultivate.
+          </p>
+        </article>
+
+        <article class="phil-card reveal d4">
+          <p class="phil-n">04 — The Promise</p>
+          <h3 class="phil-title">What We Deliver</h3>
+          <p class="phil-text">
+            You belong to something refined. You know it. They know it. That's enough. Wear it on court. Wear it everywhere after.
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ COLLECTION — cream ══ -->
+  <section id="collection" aria-labelledby="collection-title" style="background:var(--cream);padding:110px 0;">
+    <div class="container">
+
+      <div class="col-header reveal">
+        <div>
+          <p class="section-kicker">The Collection</p>
+          <h2 class="section-title" style="margin-bottom:0;">
+            Four pieces.<br>
+            <em>One standard.</em>
+          </h2>
+        </div>
+        <p class="col-note">
+          Each piece designed to move from court to everything that follows. Premium materials. The Wave, always discreet.
+        </p>
+      </div>
+
+      <div class="product-grid">
+
+        <!-- POLO -->
+        <article class="product-card reveal d1">
+          <div class="product-img">
+            <img src="images/polo-cream.png" alt="ALTIVA Premium Polo in cream piqué cotton" loading="lazy"/>
+          </div>
+          <div class="product-body">
+            <p class="product-cat">I — Polo</p>
+            <h3 class="product-name">Premium Polo</h3>
+            <p class="product-mat">Piqué cotton</p>
+            <div class="cdots" aria-label="Cream, Navy">
+              <span class="cdot active" style="background:#F9F6F1;" data-img="images/polo-cream.png" data-card="polo" title="Cream"></span>
+              <span class="cdot" style="background:#001F3F;" data-img="images/polo-navy.png" data-card="polo" title="Navy"></span>
+            </div>
+            <p class="product-price">€89 – €109</p>
+          </div>
+        </article>
+
+        <!-- QUARTER ZIP -->
+        <article class="product-card reveal d2">
+          <div class="product-img">
+            <img src="images/qz-cream.png" alt="ALTIVA Quarter Zip Sweater in cream cotton blend" loading="lazy"/>
+          </div>
+          <div class="product-body">
+            <p class="product-cat">II — Sweater</p>
+            <h3 class="product-name">Quarter Zip</h3>
+            <p class="product-mat">Premium cotton blend</p>
+            <div class="cdots" aria-label="Cream, Navy">
+              <span class="cdot active" style="background:#F9F6F1;" data-img="images/qz-cream.png" data-card="qz" title="Cream"></span>
+              <span class="cdot" style="background:#001F3F;" data-img="images/qz-navy.png" data-card="qz" title="Navy"></span>
+            </div>
+            <p class="product-price">€99 – €119</p>
+          </div>
+        </article>
+
+        <!-- SHORTS -->
+        <article class="product-card reveal d3">
+          <div class="product-img">
+            <img src="images/shorts-cream.png" alt="ALTIVA Tailored Shorts in cream linen blend" loading="lazy"/>
+          </div>
+          <div class="product-body">
+            <p class="product-cat">III — Shorts</p>
+            <h3 class="product-name">Tailored Shorts</h3>
+            <p class="product-mat">Premium linen blend</p>
+            <div class="cdots" aria-label="Cream">
+              <span class="cdot active" style="background:#F9F6F1;" title="Cream"></span>
+            </div>
+            <p class="product-price">€79 – €99</p>
+          </div>
+        </article>
+
+        <!-- CAP -->
+        <article class="product-card reveal d4">
+          <div class="product-img">
+            <img src="images/caps.png" alt="ALTIVA Structured Cap in cream and navy cotton twill" loading="lazy"/>
+          </div>
+          <div class="product-body">
+            <p class="product-cat">IV — Cap</p>
+            <h3 class="product-name">Structured Cap</h3>
+            <p class="product-mat">Premium cotton twill</p>
+            <div class="cdots" aria-label="Cream, Navy">
+              <span class="cdot active" style="background:#F9F6F1;" data-img="images/caps.png" data-card="cap" title="Cream"></span>
+              <span class="cdot" style="background:#001F3F;" data-img="images/cap-navy.png" data-card="cap" title="Navy"></span>
+            </div>
+            <p class="product-price">€59 – €69</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ LIFESTYLE — dark ══ -->
+  <section id="lifestyle" aria-label="ALTIVA lifestyle" style="background:var(--black);padding:0;overflow:hidden;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;min-height:600px;">
+
+      <div style="position:relative;overflow:hidden;">
+        <img src="images/lifestyle-01.png" alt="ALTIVA lifestyle — after the match"
+             style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;
+                    transition:transform 0.8s ease;"
+             onmouseover="this.style.transform='scale(1.03)'"
+             onmouseout="this.style.transform='scale(1)'"
+             loading="lazy"/>
+        <div style="position:absolute;bottom:32px;left:32px;right:32px;pointer-events:none;">
+          <p style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+                    color:rgba(249,246,241,.5);font-family:var(--font);">On Court</p>
+        </div>
+      </div>
+
+      <div style="position:relative;overflow:hidden;">
+        <img src="images/lifestyle-qz.png" alt="ALTIVA lifestyle — the club"
+             style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;
+                    transition:transform 0.8s ease;"
+             onmouseover="this.style.transform='scale(1.03)'"
+             onmouseout="this.style.transform='scale(1)'"
+             loading="lazy"/>
+        <div style="position:absolute;bottom:32px;left:32px;right:32px;pointer-events:none;">
+          <p style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+                    color:rgba(249,246,241,.5);font-family:var(--font);">After</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══ MEMBERS STRIP — navy ══ -->
+  <section id="members" aria-label="Members statement">
+    <div class="container">
+      <div class="members-inner reveal">
+        <div class="members-rule" aria-hidden="true"></div>
+        <p class="members-line">
+          Founded by those who play.<br>
+          Worn by those who understand.
+        </p>
+        <p class="members-sub">Founding Members · 2026</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ WAITLIST — taupe ══ -->
+  <section id="waitlist" aria-labelledby="wl-title">
+    <div class="container">
+      <div class="wl-wrap">
+        <div class="wl-card reveal">
+
+          <svg class="wl-logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 25 70 Q 40 45 60 50 T 95 70" stroke="#1A1A1A" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 25 80 Q 40 62 60 65 T 95 80" stroke="#1A1A1A" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="60" cy="48" r="1.2" fill="#1A1A1A"/>
+            <line x1="20" y1="92" x2="100" y2="92" stroke="#1A1A1A" stroke-width="0.8" stroke-linecap="round"/>
+          </svg>
+
+          <h2 class="wl-title" id="wl-title">Founding Membership</h2>
+
+          <p class="wl-sub">
+            We select founding members personally. Submit your interest and we'll be in touch before launch. Not everyone who applies will receive an invitation.
+          </p>
+
+          <form class="wl-form" id="wl-form" novalidate>
+            <div class="form-row">
+              <input
+                class="form-input"
+                type="email"
+                id="email-input"
+                name="email"
+                placeholder="Your email address"
+                autocomplete="email"
+                aria-label="Email address"
+                required
+              />
+              <button class="form-btn" type="submit" id="form-btn">
+                Apply
+              </button>
+            </div>
+            <p class="form-msg" id="form-msg" role="status" aria-live="polite"></p>
+          </form>
+
+          <p class="wl-launch">Launching August 2026</p>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ FOOTER ══ -->
+  <footer id="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-inner">
+
+        <p class="footer-copy">&copy; 2026 ALTIVA. All rights reserved.</p>
+
+        <div class="footer-logo-block">
+          <svg class="footer-logo" width="44" height="44" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-label="ALTIVA">
+            <path d="M 25 70 Q 40 45 60 50 T 95 70" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 25 80 Q 40 62 60 65 T 95 80" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="60" cy="48" r="1.2"/>
+            <line x1="20" y1="92" x2="100" y2="92" stroke-width="0.8" stroke-linecap="round"/>
+          </svg>
+          <span class="footer-wordmark">ALTIVA</span>
+        </div>
+
+        <p class="footer-tag">
+          Mediterranean Quiet Luxury<br>
+          Padel Belongs Here
+        </p>
+
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+    /* Nav scroll state */
+    const nav = document.getElementById('nav');
+    const darkSections = ['manifesto', 'members', 'footer'];
+
+    function updateNav() {
+      const y = window.scrollY;
+      nav.classList.toggle('scrolled', y > 50);
+
+      let overDark = false;
+      darkSections.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= 60 && rect.bottom >= 60) overDark = true;
+      });
+      nav.classList.toggle('dark', overDark && y < 50 ? false : overDark);
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
+    /* Scroll reveal */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -44px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    /* Form */
+    const form  = document.getElementById('wl-form');
+    const input = document.getElementById('email-input');
+    const btn   = document.getElementById('form-btn');
+    const msg   = document.getElementById('form-msg');
+
+    const validEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const val = input.value.trim();
+      input.classList.remove('err');
+      msg.className = 'form-msg';
+      msg.textContent = '';
+
+      if (!val)             { return setErr('Please enter your email address.'); }
+      if (!validEmail(val)) { return setErr('Please enter a valid email address.'); }
+
+      btn.disabled = true;
+      btn.textContent = '—';
+
+      setTimeout(() => {
+        console.log('ALTIVA founding member application:', val);
+        input.value = '';
+        btn.textContent = 'Apply';
+        btn.disabled = false;
+        msg.classList.add('ok');
+        msg.textContent = 'Application received. We review each one personally.';
+      }, 900);
+    });
+
+    function setErr(text) {
+      input.classList.add('err');
+      msg.classList.add('err');
+      msg.textContent = text;
+      input.focus();
+    }
+
+    input.addEventListener('input', () => {
+      input.classList.remove('err');
+      msg.className = 'form-msg';
+      msg.textContent = '';
+    });
+
+    /* Color swatch switcher — polo & quarter zip */
+    document.querySelectorAll('.cdot[data-img]').forEach(dot => {
+      dot.addEventListener('click', () => {
+        const card = dot.closest('.product-card');
+        const img  = card.querySelector('.product-img img');
+        const siblings = card.querySelectorAll('.cdot');
+
+        siblings.forEach(s => s.classList.remove('active'));
+        dot.classList.add('active');
+
+        img.style.opacity = '0';
+        img.style.transition = 'opacity 0.25s ease';
+        setTimeout(() => {
+          img.src = dot.dataset.img;
+          img.onload = () => { img.style.opacity = '1'; };
+        }, 200);
+      });
+    });
+  </script>
+
+</body>
+</html>
